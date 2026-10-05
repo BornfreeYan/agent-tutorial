@@ -17,23 +17,60 @@
 
 先安装根依赖：
 
+建立conda环境管理包，agent是这个包名，可替换为自己想要的：
+
+```PowerShell
+conda create -n agent python=3.12
+# 执行完之后激活本agent环境：
+conda activate agent
+```
+
+装包：
+
 ```bash
 pip install -r requirements.txt
 ```
 
-大多数 demo 需要配置：
+### 配置环境变量
+
+推荐用仓库根目录的 `.env` 文件集中管理环境变量。先复制模板：
+
+```bash
+cp .env.example .env
+```
+
+然后把 `.env` 里的值填成你自己的：
+
+```dotenv
+DEEPSEEK_API_KEY=你的 DeepSeek API Key
+
+ZHIPU_API_KEY=你的智谱 API Key
+PGVECTOR_HOST=你的 PostgreSQL 公网访问地址
+PGVECTOR_PASSWORD=你的数据库密码
+```
+
+- `DEEPSEEK_API_KEY`：`demo1` 到 `demo11` 都需要，去[platform.deepseek.com/api_keys](https://platform.deepseek.com/api_keys) 获取
+- `ZHIPU_API_KEY`、`PGVECTOR_HOST`、`PGVECTOR_PASSWORD`：只有 `demo10` 需要
+- `.env` 已经在 `.gitignore` 里，不会被提交；`.env.example` 是模板，可以提交
+- 读取 `.env` 用的是 `python-dotenv`，它已经在 `requirements.txt` 里，不需要单独安装
+
+所有 demo 都从仓库根目录运行（例如 `python demo10/rag_demo.py`），所以放在根目录的这一份 `.env` 能被所有 demo 找到。加载时在各入口文件里、导入 demo 模块之前调用 `load_dotenv()`；注意 `demo10/config.py` 是在导入时就读取变量的，加载必须发生在它之前。
+
+如果你更习惯临时设置，也可以只在当前终端会话里用 PowerShell 设一次（关掉终端就失效）：
 
 ```powershell
 $env:DEEPSEEK_API_KEY="你的 API Key"
 ```
 
-`demo10` 额外需要配置：
+`demo10` 额外需要：
 
 ```powershell
 $env:ZHIPU_API_KEY="你的智谱 API Key"
 $env:PGVECTOR_HOST="你的 PostgreSQL 公网访问地址"
 $env:PGVECTOR_PASSWORD="你的数据库密码"
 ```
+
+`.env` 和系统环境变量同时存在时，**已有的系统环境变量优先**（`load_dotenv()` 默认不覆盖已存在的变量），所以这种方式仍然可以用来临时替换某个 Key 做测试。
 
 `demo10` 还需要你自己准备启用了 `pgvector` 扩展的 PostgreSQL 数据库。
 
@@ -50,19 +87,19 @@ $env:PGVECTOR_PASSWORD="你的数据库密码"
 
 ## Demo 导航
 
-| Demo | 主题 | 入口 |
-| --- | --- | --- |
-| `demo1` | 最小 LLM 调用 | [demo1/README.md](demo1/README.md) |
-| `demo2` | 多轮对话与短期记忆 | [demo2/README.md](demo2/README.md) |
-| `demo3` | Tool Calling 与文件工具 | [demo3/README.md](demo3/README.md) |
-| `demo4` | 显式规划与状态推进 | [demo4/README.md](demo4/README.md) |
-| `demo5` | ReAct 风格 Agent 循环 | [demo5/README.md](demo5/README.md) |
-| `demo6` | 最小 Agent 框架抽象 | [demo6/README.md](demo6/README.md) |
-| `demo7` | 简化版 Coding Agent | [demo7/README.md](demo7/README.md) |
-| `demo8` | 固定节点编排的 Workflow Agent | [demo8/README.md](demo8/README.md) |
-| `demo9` | 带人工审批的 HITL Workflow | [demo9/README.md](demo9/README.md) |
-| `demo10` | 基于 pgvector 的 RAG Agent | [demo10/README.md](demo10/README.md) |
-| `demo11` | 基于 MCP Server 的工具接入 | [demo11/README.md](demo11/README.md) |
+| Demo       | 主题                          | 入口                                |
+| ---------- | ----------------------------- | ----------------------------------- |
+| `demo1`  | 最小 LLM 调用                 | [demo1/README.md](demo1/README.md)   |
+| `demo2`  | 多轮对话与短期记忆            | [demo2/README.md](demo2/README.md)   |
+| `demo3`  | Tool Calling 与文件工具       | [demo3/README.md](demo3/README.md)   |
+| `demo4`  | 显式规划与状态推进            | [demo4/README.md](demo4/README.md)   |
+| `demo5`  | ReAct 风格 Agent 循环         | [demo5/README.md](demo5/README.md)   |
+| `demo6`  | 最小 Agent 框架抽象           | [demo6/README.md](demo6/README.md)   |
+| `demo7`  | 简化版 Coding Agent           | [demo7/README.md](demo7/README.md)   |
+| `demo8`  | 固定节点编排的 Workflow Agent | [demo8/README.md](demo8/README.md)   |
+| `demo9`  | 带人工审批的 HITL Workflow    | [demo9/README.md](demo9/README.md)   |
+| `demo10` | 基于 pgvector 的 RAG Agent    | [demo10/README.md](demo10/README.md) |
+| `demo11` | 基于 MCP Server 的工具接入    | [demo11/README.md](demo11/README.md) |
 
 ## 推荐学习路线
 
