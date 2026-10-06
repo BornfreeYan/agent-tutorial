@@ -91,7 +91,7 @@ $env:PGVECTOR_PASSWORD="你的数据库密码"
 | ---------- | ----------------------------- | ----------------------------------- |
 | `demo1`  | 最小 LLM 调用                 | [demo1/README.md](demo1/README.md)   |
 | `demo2`  | 多轮对话与短期记忆            | [demo2/README.md](demo2/README.md)   |
-| `demo3`  | Tool Calling 与文件工具       | [demo3/README.md](demo3/README.md)   |
+| `demo3`  | 最小 Tool Calling 闭环        | [demo3/README.md](demo3/README.md)   |
 | `demo4`  | 显式规划与状态推进            | [demo4/README.md](demo4/README.md)   |
 | `demo5`  | ReAct 风格 Agent 循环         | [demo5/README.md](demo5/README.md)   |
 | `demo6`  | 最小 Agent 框架抽象           | [demo6/README.md](demo6/README.md)   |
